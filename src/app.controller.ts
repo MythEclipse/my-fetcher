@@ -5,6 +5,7 @@ import { HttpService } from '@nestjs/axios';
 import { lastValueFrom } from 'rxjs';
 import { AxiosResponse, isAxiosError } from 'axios';
 import { Readable } from 'stream';
+import { ApiQuery } from '@nestjs/swagger';
 import { AppService } from './app.service';
 import { WinstonLoggerService } from './logger.service';
 import { FetchUrlDto } from './dto/fetch-url.dto';
@@ -18,14 +19,12 @@ export class AppController {
     private readonly winstonLogger: WinstonLoggerService,
   ) {}
 
-  @Get()
-  getHello(): string {
-    this.winstonLogger.log('Hello endpoint called', 'AppController');
-    const result = this.appService.getHello();
-    this.winstonLogger.log(`Returning: ${result}`, 'AppController');
-    return result;
+  @Get('/')
+  redirectToSwagger(@Res() res: Response) {
+    res.redirect('/api');
   }
 
+  @ApiQuery({ name: 'url', description: 'URL to fetch', type: String })
   @Get('fetch')
   async fetch(@Query() fetchUrlDto: FetchUrlDto, @Res() res: Response) {
     const url = fetchUrlDto.url;
