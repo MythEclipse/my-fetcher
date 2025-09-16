@@ -44,6 +44,67 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Example Usage
+
+Once the application is running (default port 3000), you can test the endpoints:
+
+### Get Hello World
+```bash
+curl http://localhost:3000/
+```
+
+Response:
+```
+Hello World!
+```
+
+### Fetch Content from URL
+```bash
+# Fetch JSON API
+curl "http://localhost:3000/fetch?url=https://httpbin.org/json"
+
+# Fetch HTML page
+curl "http://localhost:3000/fetch?url=https://example.com"
+
+# Fetch image
+curl "http://localhost:3000/fetch?url=https://httpbin.org/image/png" -o image.png
+```
+
+This endpoint fetches content from any valid URL and streams it back. It supports:
+- **JSON APIs** - Returns structured data
+- **HTML pages** - Returns web page content
+- **Images** - Returns binary image data
+- **Any content type** - Automatically handles different MIME types
+
+The endpoint includes:
+- URL validation
+- 30-second timeout
+- Proper User-Agent headers
+- Content-Type detection and logging
+- Comprehensive error handling
+
+## Logging
+
+The application uses Winston for comprehensive logging with the following features:
+
+- **Console logging**: Colored, formatted logs for development
+- **File logging**: Separate log files for errors and all logs
+- **Structured logging**: JSON format with timestamps and service metadata
+
+### Log Files
+- `logs/error.log`: Contains only error-level logs
+- `logs/combined.log`: Contains all log levels
+
+### Log Levels
+The logger supports the following levels (from highest to lowest priority):
+- `error`: Error conditions
+- `warn`: Warning conditions
+- `info`: Informational messages
+- `debug`: Debug information
+- `verbose`: Verbose information
+
+All API requests are automatically logged with request details and responses.
+
 ## Run tests
 
 ```bash
